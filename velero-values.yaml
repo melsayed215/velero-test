@@ -1,19 +1,16 @@
-image:
-  repository: velero/velero
-  tag: v1.18.2   # make sure this matches the chart's default Velero version
-
 initContainers:
   - name: velero-plugin-for-aws
-    image: velero/velero-plugin-for-aws:v1.12.1   # make sure it's compatible with the Velero version
+    image: velero/velero-plugin-for-aws:v1.12.1
     volumeMounts:
       - mountPath: /target
         name: plugins
 
 credentials:
   useSecret: true
-  existingSecret: cloud-credentials
+  existingSecret: minio-credentials
 
 configuration:
+  defaultVolumesToFsBackup: true
   backupStorageLocation:
     - name: default
       provider: aws
@@ -21,9 +18,17 @@ configuration:
       config:
         region: minio
         s3ForcePathStyle: "true"
-        s3Url: http://172.31.5.6:9000   # set this to your MinIO URL/IP
+        s3Url: http://<minio-ip>:9000
+  volumeSnapshotLocation: []
 
-  volumeSnapshotLocation: []   # MinIO has no native snapshot API
-
-deployNodeAgent: true   # enables backing up Persistent Volume data
+deployNodeAgent: true
 snapshotsEnabled: false
+
+schedules:
+  argocd-daily:
+    disabled: true
+    schedule: "0 2 * * *"
+    template:
+      includedNamespaces:
+        - argocd # select specific namespace which you want to backup it
+      ttl: 168h
