@@ -32,3 +32,11 @@ schedules:
       includedNamespaces:
         - argocd # select specific namespace which you want to backup it
       ttl: 168h
+
+
+kubectl:
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/kubectl
+    tag: "1.31"
+
