@@ -12,12 +12,12 @@ spec:
       helm:
         valueFiles:
           - $values/velero-values.yaml
-    - repoURL: https://git.axisapp.io/axis/sysdevops/velero.git
+    - repoURL: https://github.com/melsayed215/velero-test.git
       targetRevision: main
       ref: values
   destination:
     server: https://kubernetes.default.svc
-    namespace: velero
+    namespace: velero-test
   syncPolicy:
     automated:
       prune: true

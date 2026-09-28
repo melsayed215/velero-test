@@ -18,7 +18,7 @@ configuration:
       config:
         region: minio
         s3ForcePathStyle: "true"
-        s3Url: http://<minio-ip>:9000
+        s3Url: http://172.31.5.6:9000
   volumeSnapshotLocation: []
 
 deployNodeAgent: true
